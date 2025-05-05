@@ -1,0 +1,142 @@
+[
+    {
+        "id": 1,
+        "vorname": "Anna",
+        "nachname": "Schneider",
+        "telefonVorwahl": "+49",
+        "telefonnummer": "1512345678"
+    },
+    {
+        "id": 2,
+        "vorname": "Markus",
+        "nachname": "Meier",
+        "telefonVorwahl": "+49",
+        "telefonnummer": "1729876543"
+    },
+    {
+        "id": 3,
+        "vorname": "Laura",
+        "nachname": "Fischer",
+        "telefonVorwahl": "+43",
+        "telefonnummer": "6601234567"
+    },
+    {
+        "id": 4,
+        "vorname": "Tom",
+        "nachname": "Becker",
+        "telefonVorwahl": "+49",
+        "telefonnummer": "1604455667"
+    },
+    {
+        "id": 5,
+        "vorname": "Sophie",
+        "nachname": "Weber",
+        "telefonVorwahl": "+41",
+        "telefonnummer": "781234567"
+    },
+    {
+        "id": 6,
+        "vorname": "Lukas",
+        "nachname": "Huber",
+        "telefonVorwahl": "+43",
+        "telefonnummer": "6998765432"
+    },
+    {
+        "id": 7,
+        "vorname": "Mia",
+        "nachname": "Wolf",
+        "telefonVorwahl": "+49",
+        "telefonnummer": "1579876543"
+    },
+    {
+        "id": 8,
+        "vorname": "Jonas",
+        "nachname": "Keller",
+        "telefonVorwahl": "+49",
+        "telefonnummer": "1621234567"
+    },
+    {
+        "id": 9,
+        "vorname": "Lena",
+        "nachname": "Baumann",
+        "telefonVorwahl": "+41",
+        "telefonnummer": "763456789"
+    },
+    {
+        "id": 10,
+        "vorname": "Felix",
+        "nachname": "Schmid",
+        "telefonVorwahl": "+43",
+        "telefonnummer": "681234567"
+    },
+    {
+        "id": 11,
+        "vorname": "Nina",
+        "nachname": "Hartmann",
+        "telefonVorwahl": "+49",
+        "telefonnummer": "1523456789"
+    },
+    {
+        "id": 12,
+        "vorname": "Tim",
+        "nachname": "Lang",
+        "telefonVorwahl": "+49",
+        "telefonnummer": "1518765432"
+    },
+    {
+        "id": 13,
+        "vorname": "Clara",
+        "nachname": "Frank",
+        "telefonVorwahl": "+43",
+        "telefonnummer": "664123456"
+    },
+    {
+        "id": 14,
+        "vorname": "Julian",
+        "nachname": "Graf",
+        "telefonVorwahl": "+49",
+        "telefonnummer": "1709876543"
+    },
+    {
+        "id": 15,
+        "vorname": "Emma",
+        "nachname": "König",
+        "telefonVorwahl": "+41",
+        "telefonnummer": "765432198"
+    },
+    {
+        "id": 16,
+        "vorname": "Moritz",
+        "nachname": "Lehmann",
+        "telefonVorwahl": "+49",
+        "telefonnummer": "1598765432"
+    },
+    {
+        "id": 17,
+        "vorname": "Paula",
+        "nachname": "Zimmermann",
+        "telefonVorwahl": "+49",
+        "telefonnummer": "1551234567"
+    },
+    {
+        "id": 18,
+        "vorname": "Simon",
+        "nachname": "Jung",
+        "telefonVorwahl": "+43",
+        "telefonnummer": "676543210"
+    },
+    {
+        "id": 19,
+        "vorname": "Lea",
+        "nachname": "Brandt",
+        "telefonVorwahl": "+49",
+        "telefonnummer": "1742345678"
+    },
+    {
+        "id": 20,
+        "vorname": "Ben",
+        "nachname": "Lorenz",
+        "telefonVorwahl": "+41",
+        "telefonnummer": "779876543"
+    }
+]
