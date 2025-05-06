@@ -48,7 +48,7 @@ public class PhoneBookEntryControllerTest {
 	void testGetAll() throws Exception {
 		given(phoneBookEntryService.getAll()).willReturn(testDaten);
 
-		mockMvc.perform(get("/api/phonebook_entries"))
+		mockMvc.perform(get("/api/phonebook"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(3)));
 	}
@@ -61,7 +61,7 @@ public class PhoneBookEntryControllerTest {
 				testDaten.get(2) // Sandra
 		));
 
-		mockMvc.perform(get("/api/phonebook_entries").param("name", "an"))
+		mockMvc.perform(get("/api/phonebook").param("name", "an"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(3)))
 				.andExpect(content().string(containsString("Anna")))
@@ -74,7 +74,7 @@ public class PhoneBookEntryControllerTest {
 		PhoneBookEntry neu = new PhoneBookEntry(null, "Max", "Mustermann", "+49", "1700000000");
 		String json = new ObjectMapper().writeValueAsString(neu);
 
-		mockMvc.perform(post("/api/phonebook_entries")
+		mockMvc.perform(post("/api/phonebook")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
 				.andExpect(status().isCreated());

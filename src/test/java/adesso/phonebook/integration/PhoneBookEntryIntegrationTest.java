@@ -30,14 +30,14 @@ public class PhoneBookEntryIntegrationTest {
 
 	@Test
 	void getAllPersonen_shouldReturn20Items() throws Exception {
-		mockMvc.perform(get("/api/phonebook_entries"))
+		mockMvc.perform(get("/api/phonebook"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(20))); // data.json enthält 20 Personen
 	}
 
 	@Test
 	void filterPersonen_shouldReturnMatchingNames() throws Exception {
-		mockMvc.perform(get("/api/phonebook_entries").param("name", "an"))
+		mockMvc.perform(get("/api/phonebook").param("name", "an"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].vorname", containsString("An")));
 	}
@@ -45,17 +45,17 @@ public class PhoneBookEntryIntegrationTest {
 	@Test
 	void filterPersonen_shouldBeCaseInsensitive() throws Exception {
 		// Lowercase
-		mockMvc.perform(get("/api/phonebook_entries").param("name", "an"))
+		mockMvc.perform(get("/api/phonebook").param("name", "an"))
 				.andExpect(status().isOk())
 				.andExpect(content().string(containsString("Anna")));
 
 		// Uppercase
-		mockMvc.perform(get("/api/phonebook_entries").param("name", "AN"))
+		mockMvc.perform(get("/api/phonebook").param("name", "AN"))
 				.andExpect(status().isOk())
 				.andExpect(content().string(containsString("Anna")));
 
 		// Mixed case
-		mockMvc.perform(get("/api/phonebook_entries").param("name", "An"))
+		mockMvc.perform(get("/api/phonebook").param("name", "An"))
 				.andExpect(status().isOk())
 				.andExpect(content().string(containsString("Anna")));
 	}
@@ -70,7 +70,7 @@ public class PhoneBookEntryIntegrationTest {
 
 		String json = objectMapper.writeValueAsString(neuePerson);
 
-		mockMvc.perform(post("/api/phonebook_entries")
+		mockMvc.perform(post("/api/phonebook")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
 				.andExpect(status().isCreated());
