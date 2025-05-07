@@ -30,7 +30,7 @@ public class PhoneBookEntryController {
 		if (name == null || name.isBlank()) {
 			return phoneBookEntryService.getAll();
 		} else {
-			return phoneBookEntryService.filterByName(name);
+			return phoneBookEntryService.filterByNameOrPrefix(name);
 		}
 	}
 
