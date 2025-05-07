@@ -62,11 +62,12 @@ public class PhoneBookEntryService {
 				.orElse(0L) + 1;
 	}
 
-	public List<PhoneBookEntry> filterByName(String name) {
+	public List<PhoneBookEntry> filterByNameOrPrefix(String name) {
 		String lowerName = name.toLowerCase();
 		return phoneBookEntries.stream()
 				.filter(entry -> entry.getVorname().toLowerCase().contains(lowerName) ||
-						entry.getNachname().toLowerCase().contains(lowerName))
+						entry.getNachname().toLowerCase().contains(lowerName) ||
+						entry.getTelefonVorwahl().toLowerCase().contains(lowerName))
 				.collect(Collectors.toList());
 	}
 }

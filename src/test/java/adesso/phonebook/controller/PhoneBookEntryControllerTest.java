@@ -55,7 +55,7 @@ public class PhoneBookEntryControllerTest {
 
 	@Test
 	void testFilterByName() throws Exception {
-		given(phoneBookEntryService.filterByName("an")).willReturn(List.of(
+		given(phoneBookEntryService.filterByNameOrPrefix("an")).willReturn(List.of(
 				testDaten.get(0), // Anna
 				testDaten.get(1), // Andreas
 				testDaten.get(2) // Sandra
