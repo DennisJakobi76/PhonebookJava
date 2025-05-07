@@ -2,20 +2,20 @@ package adesso.phonebook;
 
 public class PhoneBookEntry {
 	private Long id;
-	private String vorname;
-	private String nachname;
-	private String telefonVorwahl;
-	private String telefonnummer;
+	private String firstName;
+	private String lastName;
+	private String phonePrefix;
+	private String phoneNumber;
 
 	public PhoneBookEntry() {
 	}
 
-	public PhoneBookEntry(Long id, String vorname, String nachname, String telefonVorwahl, String telefonnummer) {
+	public PhoneBookEntry(Long id, String firstName, String lastName, String phonePrefix, String phoneNumber) {
 		this.id = id;
-		this.vorname = vorname;
-		this.nachname = nachname;
-		this.telefonVorwahl = telefonVorwahl;
-		this.telefonnummer = telefonnummer;
+		this.firstName = firstName;
+		this.lastName = lastName;
+		this.phonePrefix = phonePrefix;
+		this.phoneNumber = phoneNumber;
 	}
 
 	public Long getId() {
@@ -26,35 +26,35 @@ public class PhoneBookEntry {
 		this.id = id;
 	}
 
-	public String getVorname() {
-		return vorname;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setVorname(String vorname) {
-		this.vorname = vorname;
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
 	}
 
-	public String getNachname() {
-		return nachname;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public void setNachname(String nachname) {
-		this.nachname = nachname;
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
 	}
 
-	public String getTelefonVorwahl() {
-		return telefonVorwahl;
+	public String getPhonePrefix() {
+		return phonePrefix;
 	}
 
-	public void setTelefonVorwahl(String telefonVorwahl) {
-		this.telefonVorwahl = telefonVorwahl;
+	public void setPhonePrefix(String phonePrefix) {
+		this.phonePrefix = phonePrefix;
 	}
 
-	public String getTelefonnummer() {
-		return telefonnummer;
+	public String getPhoneNumber() {
+		return phoneNumber;
 	}
 
-	public void setTelefonnummer(String telefonnummer) {
-		this.telefonnummer = telefonnummer;
+	public void setPhoneNumber(String phoneNumber) {
+		this.phoneNumber = phoneNumber;
 	}
 }

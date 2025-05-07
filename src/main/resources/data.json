@@ -1,142 +1,142 @@
 [
     {
         "id": 1,
-        "vorname": "Anna",
-        "nachname": "Schneider",
-        "telefonVorwahl": "+49",
-        "telefonnummer": "1512345678"
+        "firstName": "Anna",
+        "lastName": "Schneider",
+        "phonePrefix": "+49",
+        "phoneNumber": "1512345678"
     },
     {
         "id": 2,
-        "vorname": "Markus",
-        "nachname": "Meier",
-        "telefonVorwahl": "+49",
-        "telefonnummer": "1729876543"
+        "firstName": "Markus",
+        "lastName": "Meier",
+        "phonePrefix": "+49",
+        "phoneNumber": "1729876543"
     },
     {
         "id": 3,
-        "vorname": "Laura",
-        "nachname": "Fischer",
-        "telefonVorwahl": "+43",
-        "telefonnummer": "6601234567"
+        "firstName": "Laura",
+        "lastName": "Fischer",
+        "phonePrefix": "+43",
+        "phoneNumber": "6601234567"
     },
     {
         "id": 4,
-        "vorname": "Tom",
-        "nachname": "Becker",
-        "telefonVorwahl": "+49",
-        "telefonnummer": "1604455667"
+        "firstName": "Tom",
+        "lastName": "Becker",
+        "phonePrefix": "+49",
+        "phoneNumber": "1604455667"
     },
     {
         "id": 5,
-        "vorname": "Sophie",
-        "nachname": "Weber",
-        "telefonVorwahl": "+41",
-        "telefonnummer": "781234567"
+        "firstName": "Sophie",
+        "lastName": "Weber",
+        "phonePrefix": "+41",
+        "phoneNumber": "781234567"
     },
     {
         "id": 6,
-        "vorname": "Lukas",
-        "nachname": "Huber",
-        "telefonVorwahl": "+43",
-        "telefonnummer": "6998765432"
+        "firstName": "Lukas",
+        "lastName": "Huber",
+        "phonePrefix": "+43",
+        "phoneNumber": "6998765432"
     },
     {
         "id": 7,
-        "vorname": "Mia",
-        "nachname": "Wolf",
-        "telefonVorwahl": "+49",
-        "telefonnummer": "1579876543"
+        "firstName": "Mia",
+        "lastName": "Wolf",
+        "phonePrefix": "+49",
+        "phoneNumber": "1579876543"
     },
     {
         "id": 8,
-        "vorname": "Jonas",
-        "nachname": "Keller",
-        "telefonVorwahl": "+49",
-        "telefonnummer": "1621234567"
+        "firstName": "Jonas",
+        "lastName": "Keller",
+        "phonePrefix": "+49",
+        "phoneNumber": "1621234567"
     },
     {
         "id": 9,
-        "vorname": "Lena",
-        "nachname": "Baumann",
-        "telefonVorwahl": "+41",
-        "telefonnummer": "763456789"
+        "firstName": "Lena",
+        "lastName": "Baumann",
+        "phonePrefix": "+41",
+        "phoneNumber": "763456789"
     },
     {
         "id": 10,
-        "vorname": "Felix",
-        "nachname": "Schmid",
-        "telefonVorwahl": "+43",
-        "telefonnummer": "681234567"
+        "firstName": "Felix",
+        "lastName": "Schmid",
+        "phonePrefix": "+43",
+        "phoneNumber": "681234567"
     },
     {
         "id": 11,
-        "vorname": "Nina",
-        "nachname": "Hartmann",
-        "telefonVorwahl": "+49",
-        "telefonnummer": "1523456789"
+        "firstName": "Nina",
+        "lastName": "Hartmann",
+        "phonePrefix": "+49",
+        "phoneNumber": "1523456789"
     },
     {
         "id": 12,
-        "vorname": "Tim",
-        "nachname": "Lang",
-        "telefonVorwahl": "+49",
-        "telefonnummer": "1518765432"
+        "firstName": "Tim",
+        "lastName": "Lang",
+        "phonePrefix": "+49",
+        "phoneNumber": "1518765432"
     },
     {
         "id": 13,
-        "vorname": "Clara",
-        "nachname": "Frank",
-        "telefonVorwahl": "+43",
-        "telefonnummer": "664123456"
+        "firstName": "Clara",
+        "lastName": "Frank",
+        "phonePrefix": "+43",
+        "phoneNumber": "664123456"
     },
     {
         "id": 14,
-        "vorname": "Julian",
-        "nachname": "Graf",
-        "telefonVorwahl": "+49",
-        "telefonnummer": "1709876543"
+        "firstName": "Julian",
+        "lastName": "Graf",
+        "phonePrefix": "+49",
+        "phoneNumber": "1709876543"
     },
     {
         "id": 15,
-        "vorname": "Emma",
-        "nachname": "König",
-        "telefonVorwahl": "+41",
-        "telefonnummer": "765432198"
+        "firstName": "Emma",
+        "lastName": "König",
+        "phonePrefix": "+41",
+        "phoneNumber": "765432198"
     },
     {
         "id": 16,
-        "vorname": "Moritz",
-        "nachname": "Lehmann",
-        "telefonVorwahl": "+49",
-        "telefonnummer": "1598765432"
+        "firstName": "Moritz",
+        "lastName": "Lehmann",
+        "phonePrefix": "+49",
+        "phoneNumber": "1598765432"
     },
     {
         "id": 17,
-        "vorname": "Paula",
-        "nachname": "Zimmermann",
-        "telefonVorwahl": "+49",
-        "telefonnummer": "1551234567"
+        "firstName": "Paula",
+        "lastName": "Zimmermann",
+        "phonePrefix": "+49",
+        "phoneNumber": "1551234567"
     },
     {
         "id": 18,
-        "vorname": "Simon",
-        "nachname": "Jung",
-        "telefonVorwahl": "+43",
-        "telefonnummer": "676543210"
+        "firstName": "Simon",
+        "lastName": "Jung",
+        "phonePrefix": "+43",
+        "phoneNumber": "676543210"
     },
     {
         "id": 19,
-        "vorname": "Lea",
-        "nachname": "Brandt",
-        "telefonVorwahl": "+49",
-        "telefonnummer": "1742345678"
+        "firstName": "Lea",
+        "lastName": "Brandt",
+        "phonePrefix": "+49",
+        "phoneNumber": "1742345678"
     },
     {
         "id": 20,
-        "vorname": "Ben",
-        "nachname": "Lorenz",
-        "telefonVorwahl": "+41",
-        "telefonnummer": "779876543"
+        "firstName": "Ben",
+        "lastName": "Lorenz",
+        "phonePrefix": "+41",
+        "phoneNumber": "779876543"
     }
 ]
