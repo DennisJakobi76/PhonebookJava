@@ -8,8 +8,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -74,5 +76,66 @@ public class PhoneBookEntryIntegrationTest {
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json))
 				.andExpect(status().isCreated());
+	}
+
+	@Test
+	void updatePerson_shouldReturnOkStatus() throws Exception {
+		// Existierende Person (ID 1 aus data.json) aktualisieren
+		PhoneBookEntry updatePerson = new PhoneBookEntry();
+		updatePerson.setVorname("Anna-Marie");
+		updatePerson.setNachname("Schmidt");
+		updatePerson.setTelefonVorwahl("+49");
+		updatePerson.setTelefonnummer("1599999999");
+
+		String json = objectMapper.writeValueAsString(updatePerson);
+
+		mockMvc.perform(put("/api/phonebook/1")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json))
+				.andExpect(status().isOk());
+
+		// Überprüfen, ob die Änderungen gespeichert wurden
+		mockMvc.perform(get("/api/phonebook/1"))
+				.andExpect(status().isOk())
+				.andExpect(jsonPath("$.vorname").value("Anna-Marie"))
+				.andExpect(jsonPath("$.nachname").value("Schmidt"))
+				.andExpect(jsonPath("$.telefonnummer").value("1599999999"));
+	}
+
+	@Test
+	void updateNonExistingPerson_shouldReturnNotFound() throws Exception {
+		PhoneBookEntry updatePerson = new PhoneBookEntry();
+		updatePerson.setVorname("Test");
+		updatePerson.setNachname("Person");
+		updatePerson.setTelefonVorwahl("+49");
+		updatePerson.setTelefonnummer("1234567890");
+
+		String json = objectMapper.writeValueAsString(updatePerson);
+
+		mockMvc.perform(put("/api/phonebook/999")
+				.contentType(MediaType.APPLICATION_JSON)
+				.content(json))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	void deletePerson_shouldReturnNoContent() throws Exception {
+		// Erst einen GET-Request machen um sicherzustellen, dass die Person existiert
+		mockMvc.perform(get("/api/phonebook/1"))
+				.andExpect(status().isOk());
+
+		// Person löschen
+		mockMvc.perform(delete("/api/phonebook/1"))
+				.andExpect(status().isNoContent());
+
+		// Überprüfen, ob die Person wirklich gelöscht wurde
+		mockMvc.perform(get("/api/phonebook/1"))
+				.andExpect(status().isNotFound());
+	}
+
+	@Test
+	void deleteNonExistingPerson_shouldReturnNotFound() throws Exception {
+		mockMvc.perform(delete("/api/phonebook/999"))
+				.andExpect(status().isNotFound());
 	}
 }
