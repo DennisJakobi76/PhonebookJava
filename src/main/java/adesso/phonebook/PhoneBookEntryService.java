@@ -43,10 +43,10 @@ public class PhoneBookEntryService {
 
 	public boolean update(Long id, PhoneBookEntry updated) {
 		return getById(id).map(entry -> {
-			entry.setVorname(updated.getVorname());
-			entry.setNachname(updated.getNachname());
-			entry.setTelefonVorwahl(updated.getTelefonVorwahl());
-			entry.setTelefonnummer(updated.getTelefonnummer());
+			entry.setFirstName(updated.getFirstName());
+			entry.setLastName(updated.getLastName());
+			entry.setPhonePrefix(updated.getPhonePrefix());
+			entry.setPhoneNumber(updated.getPhoneNumber());
 			return true;
 		}).orElse(false);
 	}
@@ -65,9 +65,9 @@ public class PhoneBookEntryService {
 	public List<PhoneBookEntry> filterByNameOrPrefix(String name) {
 		String lowerName = name.toLowerCase();
 		return phoneBookEntries.stream()
-				.filter(entry -> entry.getVorname().toLowerCase().contains(lowerName) ||
-						entry.getNachname().toLowerCase().contains(lowerName) ||
-						entry.getTelefonVorwahl().toLowerCase().contains(lowerName))
+				.filter(entry -> entry.getFirstName().toLowerCase().contains(lowerName) ||
+						entry.getLastName().toLowerCase().contains(lowerName) ||
+						entry.getPhonePrefix().toLowerCase().contains(lowerName))
 				.collect(Collectors.toList());
 	}
 }

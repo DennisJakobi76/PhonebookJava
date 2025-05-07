@@ -41,7 +41,7 @@ public class PhoneBookEntryIntegrationTest {
 	void filterPersonen_shouldReturnMatchingNames() throws Exception {
 		mockMvc.perform(get("/api/phonebook").param("name", "an"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$[0].vorname", containsString("An")));
+				.andExpect(jsonPath("$[0].firstName", containsString("An")));
 	}
 
 	@Test
@@ -65,10 +65,10 @@ public class PhoneBookEntryIntegrationTest {
 	@Test
 	void createNewPerson_shouldReturnCreatedStatus() throws Exception {
 		PhoneBookEntry neuePerson = new PhoneBookEntry();
-		neuePerson.setVorname("Lisa");
-		neuePerson.setNachname("Maier");
-		neuePerson.setTelefonVorwahl("+49");
-		neuePerson.setTelefonnummer("1761111222");
+		neuePerson.setFirstName("Lisa");
+		neuePerson.setLastName("Maier");
+		neuePerson.setPhonePrefix("+49");
+		neuePerson.setPhoneNumber("1761111222");
 
 		String json = objectMapper.writeValueAsString(neuePerson);
 
@@ -82,10 +82,10 @@ public class PhoneBookEntryIntegrationTest {
 	void updatePerson_shouldReturnOkStatus() throws Exception {
 		// Existierende Person (ID 1 aus data.json) aktualisieren
 		PhoneBookEntry updatePerson = new PhoneBookEntry();
-		updatePerson.setVorname("Anna-Marie");
-		updatePerson.setNachname("Schmidt");
-		updatePerson.setTelefonVorwahl("+49");
-		updatePerson.setTelefonnummer("1599999999");
+		updatePerson.setFirstName("Anna-Marie");
+		updatePerson.setLastName("Schmidt");
+		updatePerson.setPhonePrefix("+49");
+		updatePerson.setPhoneNumber("1599999999");
 
 		String json = objectMapper.writeValueAsString(updatePerson);
 
@@ -97,18 +97,18 @@ public class PhoneBookEntryIntegrationTest {
 		// Überprüfen, ob die Änderungen gespeichert wurden
 		mockMvc.perform(get("/api/phonebook/1"))
 				.andExpect(status().isOk())
-				.andExpect(jsonPath("$.vorname").value("Anna-Marie"))
-				.andExpect(jsonPath("$.nachname").value("Schmidt"))
-				.andExpect(jsonPath("$.telefonnummer").value("1599999999"));
+				.andExpect(jsonPath("$.firstName").value("Anna-Marie"))
+				.andExpect(jsonPath("$.lastName").value("Schmidt"))
+				.andExpect(jsonPath("$.phoneNumber").value("1599999999"));
 	}
 
 	@Test
 	void updateNonExistingPerson_shouldReturnNotFound() throws Exception {
 		PhoneBookEntry updatePerson = new PhoneBookEntry();
-		updatePerson.setVorname("Test");
-		updatePerson.setNachname("Person");
-		updatePerson.setTelefonVorwahl("+49");
-		updatePerson.setTelefonnummer("1234567890");
+		updatePerson.setFirstName("Test");
+		updatePerson.setLastName("Person");
+		updatePerson.setPhonePrefix("+49");
+		updatePerson.setPhoneNumber("1234567890");
 
 		String json = objectMapper.writeValueAsString(updatePerson);
 
