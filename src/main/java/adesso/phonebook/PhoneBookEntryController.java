@@ -26,11 +26,11 @@ public class PhoneBookEntryController {
 	}
 
 	@GetMapping
-	public List<PhoneBookEntry> getAll(@RequestParam(required = false) String name) {
-		if (name == null || name.isBlank()) {
+	public List<PhoneBookEntry> getAll(@RequestParam(required = false) String userInput) {
+		if (userInput == null || userInput.isBlank()) {
 			return phoneBookEntryService.getAll();
 		} else {
-			return phoneBookEntryService.filterByNameOrPrefix(name);
+			return phoneBookEntryService.filterByNameOrPrefix(userInput);
 		}
 	}
 
