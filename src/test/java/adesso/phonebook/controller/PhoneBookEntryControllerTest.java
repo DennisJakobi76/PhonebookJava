@@ -61,7 +61,7 @@ public class PhoneBookEntryControllerTest {
 				testDaten.get(2) // Sandra
 		));
 
-		mockMvc.perform(get("/api/phonebook").param("name", "an"))
+		mockMvc.perform(get("/api/phonebook").param("userInput", "an"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$", hasSize(3)))
 				.andExpect(content().string(containsString("Anna")))
