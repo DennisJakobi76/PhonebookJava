@@ -56,18 +56,15 @@ public class PhoneBookEntryService {
 	}
 
 	private Long getNextId() {
-		return phoneBookEntries.stream()
-				.mapToLong(PhoneBookEntry::getId)
-				.max()
-				.orElse(0L) + 1;
+		return phoneBookEntries.stream().mapToLong(PhoneBookEntry::getId).max().orElse(0L) + 1;
 	}
 
 	public List<PhoneBookEntry> filterByNameOrPrefix(String userInput) {
 		String lowerInput = userInput.toLowerCase();
 		return phoneBookEntries.stream()
-				.filter(entry -> entry.getFirstName().toLowerCase().contains(lowerInput) ||
-						entry.getLastName().toLowerCase().contains(lowerInput) ||
-						entry.getPhonePrefix().toLowerCase().contains(lowerInput))
+				.filter(entry -> entry.getFirstName().toLowerCase().contains(lowerInput)
+						|| entry.getLastName().toLowerCase().contains(lowerInput)
+						|| entry.getPhonePrefix().toLowerCase().contains(lowerInput))
 				.collect(Collectors.toList());
 	}
 }
