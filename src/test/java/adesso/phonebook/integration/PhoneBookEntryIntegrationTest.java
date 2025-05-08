@@ -80,7 +80,7 @@ public class PhoneBookEntryIntegrationTest {
 
 	@Test
 	void updatePerson_shouldReturnOkStatus() throws Exception {
-		// Existierende Person (ID 1 aus data.json) aktualisieren
+		// Update existing Person (ID 1 aus data.json)
 		PhoneBookEntry updatePerson = new PhoneBookEntry();
 		updatePerson.setFirstName("Anna-Marie");
 		updatePerson.setLastName("Schmidt");
@@ -94,7 +94,7 @@ public class PhoneBookEntryIntegrationTest {
 				.content(json))
 				.andExpect(status().isOk());
 
-		// Überprüfen, ob die Änderungen gespeichert wurden
+		// Check if the update was successful
 		mockMvc.perform(get("/api/phonebook/1"))
 				.andExpect(status().isOk())
 				.andExpect(jsonPath("$.firstName").value("Anna-Marie"))
@@ -120,15 +120,15 @@ public class PhoneBookEntryIntegrationTest {
 
 	@Test
 	void deletePerson_shouldReturnNoContent() throws Exception {
-		// Erst einen GET-Request machen um sicherzustellen, dass die Person existiert
+		// First check if the person exists
 		mockMvc.perform(get("/api/phonebook/1"))
 				.andExpect(status().isOk());
 
-		// Person löschen
+		// Delete the person
 		mockMvc.perform(delete("/api/phonebook/1"))
 				.andExpect(status().isNoContent());
 
-		// Überprüfen, ob die Person wirklich gelöscht wurde
+		// Check if the person was deleted
 		mockMvc.perform(get("/api/phonebook/1"))
 				.andExpect(status().isNotFound());
 	}
