@@ -35,9 +35,7 @@ public class PhoneBookEntryController {
 
 	@GetMapping("/{id}")
 	public ResponseEntity<PhoneBookEntry> getById(@PathVariable Long id) {
-		return phoneBookEntryService.getById(id)
-				.map(ResponseEntity::ok)
-				.orElse(ResponseEntity.notFound().build());
+		return phoneBookEntryService.getById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
 	@PostMapping
@@ -48,15 +46,13 @@ public class PhoneBookEntryController {
 
 	@PutMapping("/{id}")
 	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody PhoneBookEntry phoneBookEntry) {
-		return phoneBookEntryService.update(id, phoneBookEntry)
-				? ResponseEntity.ok().build()
+		return phoneBookEntryService.update(id, phoneBookEntry) ? ResponseEntity.ok().build()
 				: ResponseEntity.notFound().build();
 	}
 
 	@DeleteMapping("/{id}")
 	public ResponseEntity<Void> delete(@PathVariable Long id) {
-		return phoneBookEntryService.delete(id)
-				? ResponseEntity.noContent().build()
+		return phoneBookEntryService.delete(id) ? ResponseEntity.noContent().build()
 				: ResponseEntity.notFound().build();
 	}
 }
