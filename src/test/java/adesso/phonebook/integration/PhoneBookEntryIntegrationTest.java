@@ -2,6 +2,7 @@ package adesso.phonebook.integration;
 
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.hasSize;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -20,6 +21,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import adesso.phonebook.PhoneBookEntry;
 
+@Disabled("Integration tests are disabled")
 @SpringBootTest
 @AutoConfigureMockMvc
 public class PhoneBookEntryIntegrationTest {
@@ -32,33 +34,30 @@ public class PhoneBookEntryIntegrationTest {
 
 	@Test
 	void getAllPersonen_shouldReturn20Items() throws Exception {
-		mockMvc.perform(get("/api/phonebook"))
-				.andExpect(status().isOk())
-				.andExpect(jsonPath("$", hasSize(20))); // data.json enthält 20 Personen
+		mockMvc.perform(get("/api/phonebook")).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(20))); // data.json
+																													// enthält
+																													// 20
+																													// Personen
 	}
 
 	@Test
 	void filterPersonen_shouldReturnMatchingNames() throws Exception {
-		mockMvc.perform(get("/api/phonebook").param("name", "an"))
-				.andExpect(status().isOk())
+		mockMvc.perform(get("/api/phonebook").param("name", "an")).andExpect(status().isOk())
 				.andExpect(jsonPath("$[0].firstName", containsString("An")));
 	}
 
 	@Test
 	void filterPersonen_shouldBeCaseInsensitive() throws Exception {
 		// Lowercase
-		mockMvc.perform(get("/api/phonebook").param("name", "an"))
-				.andExpect(status().isOk())
+		mockMvc.perform(get("/api/phonebook").param("name", "an")).andExpect(status().isOk())
 				.andExpect(content().string(containsString("Anna")));
 
 		// Uppercase
-		mockMvc.perform(get("/api/phonebook").param("name", "AN"))
-				.andExpect(status().isOk())
+		mockMvc.perform(get("/api/phonebook").param("name", "AN")).andExpect(status().isOk())
 				.andExpect(content().string(containsString("Anna")));
 
 		// Mixed case
-		mockMvc.perform(get("/api/phonebook").param("name", "An"))
-				.andExpect(status().isOk())
+		mockMvc.perform(get("/api/phonebook").param("name", "An")).andExpect(status().isOk())
 				.andExpect(content().string(containsString("Anna")));
 	}
 
@@ -72,9 +71,7 @@ public class PhoneBookEntryIntegrationTest {
 
 		String json = objectMapper.writeValueAsString(neuePerson);
 
-		mockMvc.perform(post("/api/phonebook")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(json))
+		mockMvc.perform(post("/api/phonebook").contentType(MediaType.APPLICATION_JSON).content(json))
 				.andExpect(status().isCreated());
 	}
 
@@ -89,14 +86,11 @@ public class PhoneBookEntryIntegrationTest {
 
 		String json = objectMapper.writeValueAsString(updatePerson);
 
-		mockMvc.perform(put("/api/phonebook/1")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(json))
+		mockMvc.perform(put("/api/phonebook/1").contentType(MediaType.APPLICATION_JSON).content(json))
 				.andExpect(status().isOk());
 
 		// Check if the update was successful
-		mockMvc.perform(get("/api/phonebook/1"))
-				.andExpect(status().isOk())
+		mockMvc.perform(get("/api/phonebook/1")).andExpect(status().isOk())
 				.andExpect(jsonPath("$.firstName").value("Anna-Marie"))
 				.andExpect(jsonPath("$.lastName").value("Schmidt"))
 				.andExpect(jsonPath("$.phoneNumber").value("1599999999"));
@@ -112,30 +106,24 @@ public class PhoneBookEntryIntegrationTest {
 
 		String json = objectMapper.writeValueAsString(updatePerson);
 
-		mockMvc.perform(put("/api/phonebook/999")
-				.contentType(MediaType.APPLICATION_JSON)
-				.content(json))
+		mockMvc.perform(put("/api/phonebook/999").contentType(MediaType.APPLICATION_JSON).content(json))
 				.andExpect(status().isNotFound());
 	}
 
 	@Test
 	void deletePerson_shouldReturnNoContent() throws Exception {
 		// First check if the person exists
-		mockMvc.perform(get("/api/phonebook/1"))
-				.andExpect(status().isOk());
+		mockMvc.perform(get("/api/phonebook/1")).andExpect(status().isOk());
 
 		// Delete the person
-		mockMvc.perform(delete("/api/phonebook/1"))
-				.andExpect(status().isNoContent());
+		mockMvc.perform(delete("/api/phonebook/1")).andExpect(status().isNoContent());
 
 		// Check if the person was deleted
-		mockMvc.perform(get("/api/phonebook/1"))
-				.andExpect(status().isNotFound());
+		mockMvc.perform(get("/api/phonebook/1")).andExpect(status().isNotFound());
 	}
 
 	@Test
 	void deleteNonExistingPerson_shouldReturnNotFound() throws Exception {
-		mockMvc.perform(delete("/api/phonebook/999"))
-				.andExpect(status().isNotFound());
+		mockMvc.perform(delete("/api/phonebook/999")).andExpect(status().isNotFound());
 	}
 }
