@@ -107,7 +107,7 @@ public class PhoneBookEntryService {
 	// }
 	public boolean update(Long id, PhoneBookEntry updated) {
 		if (phoneBookEntryRepository.existsById(id)) {
-			updated.setId(id); // Ensure the ID is set correctly
+			updated.setId(id);
 			phoneBookEntryRepository.save(updated);
 			return true;
 		}
