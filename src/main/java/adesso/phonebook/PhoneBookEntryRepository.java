@@ -20,4 +20,5 @@ public interface PhoneBookEntryRepository extends JpaRepository<PhoneBookEntry, 
     // Optional: Kombinierte Suche über alle Felder
     List<PhoneBookEntry> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrPhonePrefixContainingIgnoreCase(
             String firstName, String lastName, String phonePrefix);
+
 }
