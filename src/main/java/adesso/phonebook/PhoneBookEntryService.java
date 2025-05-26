@@ -73,6 +73,7 @@ package adesso.phonebook;
 
 import java.util.List;
 import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -90,19 +91,27 @@ public class PhoneBookEntryService {
 		return phoneBookEntryRepository.findById(id);
 	}
 
-	public void add(PhoneBookEntry entry) {
-		phoneBookEntryRepository.save(entry);
+	public PhoneBookEntry add(PhoneBookEntry entry) {
+		return phoneBookEntryRepository.save(entry);
 	}
 
+	// public boolean update(Long id, PhoneBookEntry updated) {
+	// return getById(id).map(entry -> {
+	// entry.setFirstName(updated.getFirstName());
+	// entry.setLastName(updated.getLastName());
+	// entry.setPhonePrefix(updated.getPhonePrefix());
+	// entry.setPhoneNumber(updated.getPhoneNumber());
+	// phoneBookEntryRepository.save(entry);
+	// return true;
+	// }).orElse(false);
+	// }
 	public boolean update(Long id, PhoneBookEntry updated) {
-		return getById(id).map(entry -> {
-			entry.setFirstName(updated.getFirstName());
-			entry.setLastName(updated.getLastName());
-			entry.setPhonePrefix(updated.getPhonePrefix());
-			entry.setPhoneNumber(updated.getPhoneNumber());
-			phoneBookEntryRepository.save(entry);
+		if (phoneBookEntryRepository.existsById(id)) {
+			updated.setId(id); // Ensure the ID is set correctly
+			phoneBookEntryRepository.save(updated);
 			return true;
-		}).orElse(false);
+		}
+		return false;
 	}
 
 	public boolean delete(Long id) {

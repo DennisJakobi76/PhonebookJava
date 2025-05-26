@@ -39,9 +39,9 @@ public class PhoneBookEntryController {
 	}
 
 	@PostMapping
-	public ResponseEntity<Void> create(@RequestBody PhoneBookEntry phoneBookEntry) {
-		phoneBookEntryService.add(phoneBookEntry);
-		return ResponseEntity.status(HttpStatus.CREATED).build();
+	public ResponseEntity<PhoneBookEntry> create(@RequestBody PhoneBookEntry phoneBookEntry) {
+		PhoneBookEntry saved = phoneBookEntryService.add(phoneBookEntry);
+		return ResponseEntity.status(HttpStatus.CREATED).body(saved);
 	}
 
 	@PutMapping("/{id}")
