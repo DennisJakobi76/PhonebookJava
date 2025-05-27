@@ -1,8 +1,6 @@
 package adesso.phonebook.integration;
 
 import static org.hamcrest.Matchers.containsString;
-import static org.hamcrest.Matchers.hasSize;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -13,7 +11,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -21,109 +18,113 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import adesso.phonebook.PhoneBookEntry;
 
-@Disabled("Integration tests are disabled")
 @SpringBootTest
 @AutoConfigureMockMvc
 public class PhoneBookEntryIntegrationTest {
 
-	@Autowired
-	private MockMvc mockMvc;
+       @Autowired
+       private MockMvc mockMvc;
 
-	@Autowired
-	private ObjectMapper objectMapper;
+       @Autowired
+       private ObjectMapper objectMapper;
 
-	@Test
-	void getAllPersonen_shouldReturn20Items() throws Exception {
-		mockMvc.perform(get("/api/phonebook")).andExpect(status().isOk()).andExpect(jsonPath("$", hasSize(20))); // data.json
-																													// enthält
-																													// 20
-																													// Personen
-	}
+       @Test
+       void getAllEntries_shouldReturnAllItems() throws Exception {
+              mockMvc.perform(get("/api/phonebook")).andExpect(status().isOk()).andExpect(jsonPath("$").isArray())
+                            .andExpect(jsonPath("$[0].firstName").exists())
+                            .andExpect(jsonPath("$[0].lastName").exists());
+       }
 
-	@Test
-	void filterPersonen_shouldReturnMatchingNames() throws Exception {
-		mockMvc.perform(get("/api/phonebook").param("name", "an")).andExpect(status().isOk())
-				.andExpect(jsonPath("$[0].firstName", containsString("An")));
-	}
+       @Test
+       void filterEntries_shouldReturnMatchingEntries() throws Exception {
+              mockMvc.perform(get("/api/phonebook").param("userInput", "an")).andExpect(status().isOk())
+                            .andExpect(jsonPath("$[0].firstName", containsString("An")));
+       }
 
-	@Test
-	void filterPersonen_shouldBeCaseInsensitive() throws Exception {
-		// Lowercase
-		mockMvc.perform(get("/api/phonebook").param("name", "an")).andExpect(status().isOk())
-				.andExpect(content().string(containsString("Anna")));
+       @Test
+       void getEntryById_existingId_shouldReturnEntry() throws Exception {
+              mockMvc.perform(get("/api/phonebook/200")).andExpect(status().isOk())
+                            .andExpect(jsonPath("$.id").value(200)).andExpect(jsonPath("$.firstName").exists());
+       }
 
-		// Uppercase
-		mockMvc.perform(get("/api/phonebook").param("name", "AN")).andExpect(status().isOk())
-				.andExpect(content().string(containsString("Anna")));
+       @Test
+       void getEntryById_nonExistingId_shouldReturn404() throws Exception {
+              mockMvc.perform(get("/api/phonebook/999")).andExpect(status().isNotFound());
+       }
 
-		// Mixed case
-		mockMvc.perform(get("/api/phonebook").param("name", "An")).andExpect(status().isOk())
-				.andExpect(content().string(containsString("Anna")));
-	}
+       @Test
+       void createEntry_validData_shouldReturnCreated() throws Exception {
+              PhoneBookEntry newEntry = new PhoneBookEntry();
+              newEntry.setFirstName("Test");
+              newEntry.setLastName("User");
+              newEntry.setPhonePrefix("+49");
+              newEntry.setPhoneNumber("1234567890");
 
-	@Test
-	void createNewPerson_shouldReturnCreatedStatus() throws Exception {
-		PhoneBookEntry neuePerson = new PhoneBookEntry();
-		neuePerson.setFirstName("Lisa");
-		neuePerson.setLastName("Maier");
-		neuePerson.setPhonePrefix("+49");
-		neuePerson.setPhoneNumber("1761111222");
+              mockMvc.perform(post("/api/phonebook").contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(newEntry))).andExpect(status().isCreated())
+                            .andExpect(jsonPath("$.id").exists()).andExpect(jsonPath("$.firstName").value("Test"));
+       }
 
-		String json = objectMapper.writeValueAsString(neuePerson);
+       @Test
+       void updateEntry_existingId_shouldReturnOk() throws Exception {
+              PhoneBookEntry updateEntry = new PhoneBookEntry();
+              updateEntry.setFirstName("Updated");
+              updateEntry.setLastName("User");
+              updateEntry.setPhonePrefix("+49");
+              updateEntry.setPhoneNumber("9876543210");
 
-		mockMvc.perform(post("/api/phonebook").contentType(MediaType.APPLICATION_JSON).content(json))
-				.andExpect(status().isCreated());
-	}
+              mockMvc.perform(put("/api/phonebook/200").contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(updateEntry))).andExpect(status().isOk());
 
-	@Test
-	void updatePerson_shouldReturnOkStatus() throws Exception {
-		// Update existing Person (ID 1 aus data.json)
-		PhoneBookEntry updatePerson = new PhoneBookEntry();
-		updatePerson.setFirstName("Anna-Marie");
-		updatePerson.setLastName("Schmidt");
-		updatePerson.setPhonePrefix("+49");
-		updatePerson.setPhoneNumber("1599999999");
+              // Verify the update
+              mockMvc.perform(get("/api/phonebook/200")).andExpect(status().isOk())
+                            .andExpect(jsonPath("$.firstName").value("Updated"));
+       }
 
-		String json = objectMapper.writeValueAsString(updatePerson);
+       @Test
+       void updateEntry_nonExistingId_shouldReturn404() throws Exception {
+              PhoneBookEntry updateEntry = new PhoneBookEntry();
+              updateEntry.setFirstName("Test");
+              updateEntry.setLastName("User");
+              updateEntry.setPhonePrefix("+49");
+              updateEntry.setPhoneNumber("1234567890");
 
-		mockMvc.perform(put("/api/phonebook/1").contentType(MediaType.APPLICATION_JSON).content(json))
-				.andExpect(status().isOk());
+              mockMvc.perform(put("/api/phonebook/999").contentType(MediaType.APPLICATION_JSON)
+                            .content(objectMapper.writeValueAsString(updateEntry))).andExpect(status().isNotFound());
+       }
 
-		// Check if the update was successful
-		mockMvc.perform(get("/api/phonebook/1")).andExpect(status().isOk())
-				.andExpect(jsonPath("$.firstName").value("Anna-Marie"))
-				.andExpect(jsonPath("$.lastName").value("Schmidt"))
-				.andExpect(jsonPath("$.phoneNumber").value("1599999999"));
-	}
+       @Test
+       void deleteEntry_existingId_shouldReturnNoContent() throws Exception {
+              // Create an entry to delete
+              PhoneBookEntry newEntry = new PhoneBookEntry();
+              newEntry.setFirstName("ToDelete");
+              newEntry.setLastName("User");
+              newEntry.setPhonePrefix("+49");
+              newEntry.setPhoneNumber("1234567890");
 
-	@Test
-	void updateNonExistingPerson_shouldReturnNotFound() throws Exception {
-		PhoneBookEntry updatePerson = new PhoneBookEntry();
-		updatePerson.setFirstName("Test");
-		updatePerson.setLastName("Person");
-		updatePerson.setPhonePrefix("+49");
-		updatePerson.setPhoneNumber("1234567890");
+              String response = mockMvc
+                            .perform(post("/api/phonebook").contentType(MediaType.APPLICATION_JSON)
+                                          .content(objectMapper.writeValueAsString(newEntry)))
+                            .andReturn().getResponse().getContentAsString();
 
-		String json = objectMapper.writeValueAsString(updatePerson);
+              PhoneBookEntry created = objectMapper.readValue(response, PhoneBookEntry.class);
+              Long createdId = created.getId();
 
-		mockMvc.perform(put("/api/phonebook/999").contentType(MediaType.APPLICATION_JSON).content(json))
-				.andExpect(status().isNotFound());
-	}
+              // Delete the entry
+              mockMvc.perform(delete("/api/phonebook/" + createdId)).andExpect(status().isNoContent());
 
-	@Test
-	void deletePerson_shouldReturnNoContent() throws Exception {
-		// First check if the person exists
-		mockMvc.perform(get("/api/phonebook/1")).andExpect(status().isOk());
+              // Verify deletion
+              mockMvc.perform(get("/api/phonebook/" + createdId)).andExpect(status().isNotFound());
+       }
 
-		// Delete the person
-		mockMvc.perform(delete("/api/phonebook/1")).andExpect(status().isNoContent());
+       @Test
+       void deleteEntry_nonExistingId_shouldReturn404() throws Exception {
+              mockMvc.perform(delete("/api/phonebook/999")).andExpect(status().isNotFound());
+       }
 
-		// Check if the person was deleted
-		mockMvc.perform(get("/api/phonebook/1")).andExpect(status().isNotFound());
-	}
-
-	@Test
-	void deleteNonExistingPerson_shouldReturnNotFound() throws Exception {
-		mockMvc.perform(delete("/api/phonebook/999")).andExpect(status().isNotFound());
-	}
+       @Test
+       void searchByPrefix_shouldReturnMatchingEntries() throws Exception {
+              mockMvc.perform(get("/api/phonebook").param("userInput", "+49")).andExpect(status().isOk())
+                            .andExpect(jsonPath("$[0].phonePrefix").value("+49"));
+       }
 }
