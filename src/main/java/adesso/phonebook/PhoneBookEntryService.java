@@ -23,8 +23,9 @@ public class PhoneBookEntryService {
 	public PhoneBookEntry add(PhoneBookEntry entry) {
 		return phoneBookEntryRepository.save(entry);
 	}
+
 	public boolean update(Long id, PhoneBookEntry updated) {
-	if (phoneBookEntryRepository.existsById(id)) {
+		if (phoneBookEntryRepository.existsById(id)) {
 			updated.setId(id);
 			phoneBookEntryRepository.save(updated);
 			return true;
