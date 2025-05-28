@@ -49,7 +49,7 @@ public class PhoneBookEntryIntegrationTest {
 
        @Test
        void getEntryById_nonExistingId_shouldReturn404() throws Exception {
-              mockMvc.perform(get("/api/phonebook/999")).andExpect(status().isNotFound());
+              mockMvc.perform(get("/api/phonebook/1999")).andExpect(status().isNotFound());
        }
 
        @Test
@@ -89,7 +89,7 @@ public class PhoneBookEntryIntegrationTest {
               updateEntry.setPhonePrefix("+49");
               updateEntry.setPhoneNumber("1234567890");
 
-              mockMvc.perform(put("/api/phonebook/999").contentType(MediaType.APPLICATION_JSON)
+              mockMvc.perform(put("/api/phonebook/1999").contentType(MediaType.APPLICATION_JSON)
                             .content(objectMapper.writeValueAsString(updateEntry))).andExpect(status().isNotFound());
        }
 
@@ -119,7 +119,7 @@ public class PhoneBookEntryIntegrationTest {
 
        @Test
        void deleteEntry_nonExistingId_shouldReturn404() throws Exception {
-              mockMvc.perform(delete("/api/phonebook/999")).andExpect(status().isNotFound());
+              mockMvc.perform(delete("/api/phonebook/1999")).andExpect(status().isNotFound());
        }
 
        @Test
