@@ -21,4 +21,9 @@ public interface PhoneBookEntryRepository extends JpaRepository<PhoneBookEntry, 
     List<PhoneBookEntry> findByFirstNameContainingIgnoreCaseOrLastNameContainingIgnoreCaseOrPhonePrefixContainingIgnoreCase(
             String firstName, String lastName, String phonePrefix);
 
+
+   boolean existsByFirstNameIgnoreCaseAndLastNameIgnoreCaseAndPhonePrefixAndPhoneNumber(
+       String firstName, String lastName, String phonePrefix, String phoneNumber);
+
+    boolean existsByFirstNameAndLastNameAndPhonePrefixAndPhoneNumber(String firstName, String lastName, String phonePrefix, String phoneNumber);
 }

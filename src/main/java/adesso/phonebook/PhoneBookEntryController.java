@@ -24,29 +24,27 @@ public class PhoneBookEntryController {
 	@Autowired
 	private PhoneBookEntryService phoneBookEntryService;
 
+
+
 	@GetMapping
-	public List<PhoneBookEntry> getAll(@RequestParam(required = false) String userInput) {
-		if (userInput == null || userInput.isBlank()) {
-			return phoneBookEntryService.getAll();
-		} else {
-			return phoneBookEntryService.filterByNameOrPrefix(userInput);
-		}
+	public List<PhoneBookEntryDto> getAll(@RequestParam(required = false) String userInput) {
+		return phoneBookEntryService.getAll(userInput);
 	}
 
 	@GetMapping("/{id}")
-	public ResponseEntity<PhoneBookEntry> getById(@PathVariable Long id) {
+	public ResponseEntity<PhoneBookEntryDto> getById(@PathVariable Long id) {
 		return phoneBookEntryService.getById(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
 	}
 
 	@PostMapping
-	public ResponseEntity<PhoneBookEntry> create(@RequestBody PhoneBookEntry phoneBookEntry) {
-		PhoneBookEntry saved = phoneBookEntryService.add(phoneBookEntry);
+	public ResponseEntity<PhoneBookEntryDto> create(@RequestBody PhoneBookEntryDto dto) {
+		PhoneBookEntryDto saved = phoneBookEntryService.add(dto);
 		return ResponseEntity.status(HttpStatus.CREATED).body(saved);
 	}
 
 	@PutMapping("/{id}")
-	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody PhoneBookEntry phoneBookEntry) {
-		return phoneBookEntryService.update(id, phoneBookEntry) ? ResponseEntity.ok().build()
+	public ResponseEntity<Void> update(@PathVariable Long id, @RequestBody PhoneBookEntryDto dto) {
+		return phoneBookEntryService.update(id, dto) ? ResponseEntity.ok().build()
 				: ResponseEntity.notFound().build();
 	}
 

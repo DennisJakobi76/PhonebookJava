@@ -20,13 +20,15 @@ public class JsonImporter implements CommandLineRunner {
 		this.mapper = mapper;
 	}
 
-	@Override
-	public void run(String... args) throws Exception {
-		ObjectMapper objectMapper = new ObjectMapper();
-		InputStream is = getClass().getResourceAsStream("/data.json");
+@Override
+public void run(String... args) throws Exception {
+    ObjectMapper objectMapper = new ObjectMapper();
+    InputStream is = getClass().getResourceAsStream("/data.json");
 
-		List<PhoneBookEntryDto> dtoList = objectMapper.readValue(is, new TypeReference<>() {
-		});
-		dtoList.stream().map(this.mapper::dtoToEntity).forEach(phoneBookEntryService::add);
-	}
+    List<PhoneBookEntryDto> dtoList = objectMapper.readValue(is, new TypeReference<>() {});
+    List<PhoneBookEntry> entries = dtoList.stream()
+        .map(this.mapper::dtoToEntity)
+        .toList();
+    phoneBookEntryService.importIfNotExists(entries);
+}
 }
