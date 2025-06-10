@@ -3,6 +3,7 @@ package adesso.phonebook.controller;
 import java.util.List;
 import java.util.Optional;
 
+import adesso.phonebook.PhoneBookEntryDto;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import static org.mockito.ArgumentMatchers.any;
@@ -38,25 +39,34 @@ class PhoneBookEntryControllerTest {
     @Autowired
     private ObjectMapper objectMapper;
 
-    private PhoneBookEntry testEntry;
-    private List<PhoneBookEntry> testEntries;
+    private PhoneBookEntryDto testEntry;
+    private List<PhoneBookEntryDto> testEntries;
 
     @BeforeEach
     @SuppressWarnings("unused")
     void setup() {
-        testEntry = new PhoneBookEntry(1L, "John", "Doe", "+49", "123456789");
-        testEntries = List.of(testEntry, new PhoneBookEntry(2L, "Jane", "Smith", "+49", "987654321"),
-                new PhoneBookEntry(3L, "Anna", "Miller", "+43", "123123123"));
+        testEntry = new PhoneBookEntryDto(1L, "John", "Doe", "+49", "123456789");
+        testEntries = List.of(testEntry, new PhoneBookEntryDto(2L, "Jane", "Smith", "+49", "987654321"),
+                new PhoneBookEntryDto(3L, "Anna", "Miller", "+43", "123123123"));
     }
 
     @Test
-    void getAllEntries_shouldReturnAllEntries() throws Exception {
-        given(service.getAll()).willReturn(testEntries);
+    void getAllEntries_withoutUserInput_shouldReturnAllEntries() throws Exception {
+        given(service.getAll(null)).willReturn(testEntries);
 
-        mockMvc.perform(get("/api/phonebook")).andExpect(status().isOk()).andExpect(jsonPath("$").isArray())
-                .andExpect(jsonPath("$.length()").value(3)).andExpect(jsonPath("$[0].firstName").value("John"))
-                .andExpect(jsonPath("$[1].firstName").value("Jane"))
-                .andExpect(jsonPath("$[2].firstName").value("Anna"));
+        mockMvc.perform(get("/api/phonebook"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(3));
+    }
+
+    @Test
+    void getAllEntries_withUserInput_shouldReturnFilteredEntries() throws Exception {
+        given(service.filterByNameOrPrefix("an")).willReturn(List.of(testEntries.get(2)));
+
+        mockMvc.perform(get("/api/phonebook").param("userInput", "an"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.length()").value(1))
+                .andExpect(jsonPath("$[0].firstName").value("Anna"));
     }
 
     @Test
@@ -86,10 +96,10 @@ class PhoneBookEntryControllerTest {
 
     @Test
     void createEntry_validEntry_shouldReturnCreatedEntry() throws Exception {
-        PhoneBookEntry newEntry = new PhoneBookEntry(null, "Max", "Mustermann", "+49", "555666777");
-        PhoneBookEntry savedEntry = new PhoneBookEntry(4L, "Max", "Mustermann", "+49", "555666777");
+        PhoneBookEntryDto newEntry = new PhoneBookEntryDto(null, "Max", "Mustermann", "+49", "555666777");
+        PhoneBookEntryDto savedEntry = new PhoneBookEntryDto(4L, "Max", "Mustermann", "+49", "555666777");
 
-        given(service.add(any(PhoneBookEntry.class))).willReturn(savedEntry);
+        given(service.add(any(PhoneBookEntryDto.class))).willReturn(savedEntry);
 
         mockMvc.perform(post("/api/phonebook").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(newEntry))).andExpect(status().isCreated())
@@ -99,9 +109,9 @@ class PhoneBookEntryControllerTest {
 
     @Test
     void updateEntry_existingEntry_shouldReturnOk() throws Exception {
-        PhoneBookEntry updateEntry = new PhoneBookEntry(null, "Updated", "Person", "+49", "999888777");
+        PhoneBookEntryDto updateEntry = new PhoneBookEntryDto(null, "Updated", "Person", "+49", "999888777");
 
-        given(service.update(eq(1L), any(PhoneBookEntry.class))).willReturn(true);
+        given(service.update(eq(1L), any(PhoneBookEntryDto.class))).willReturn(true);
 
         mockMvc.perform(put("/api/phonebook/1").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateEntry))).andExpect(status().isOk());
@@ -109,9 +119,9 @@ class PhoneBookEntryControllerTest {
 
     @Test
     void updateEntry_nonExistingEntry_shouldReturn404() throws Exception {
-        PhoneBookEntry updateEntry = new PhoneBookEntry(null, "Updated", "Person", "+49", "999888777");
+        PhoneBookEntryDto updateEntry = new PhoneBookEntryDto(null, "Updated", "Person", "+49", "999888777");
 
-        given(service.update(eq(99L), any(PhoneBookEntry.class))).willReturn(false);
+        given(service.update(eq(99L), any(PhoneBookEntryDto.class))).willReturn(false);
 
         mockMvc.perform(put("/api/phonebook/99").contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(updateEntry))).andExpect(status().isNotFound());

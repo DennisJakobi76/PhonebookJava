@@ -9,4 +9,7 @@ public interface PhoneBookEntryMapper {
 	@Mapping(target = "id", ignore = true)
 	PhoneBookEntry dtoToEntity(PhoneBookEntryDto dto);
 
+	PhoneBookEntryDto entityToDto(PhoneBookEntry entity);
+
+
 }

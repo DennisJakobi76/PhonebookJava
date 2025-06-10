@@ -1,7 +1,10 @@
 package adesso.phonebook;
 
-import lombok.Data;
+import lombok.*;
 
+
+@AllArgsConstructor
+@NoArgsConstructor
 @Data
 public class PhoneBookEntryDto {
 	private Long id;
